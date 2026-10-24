@@ -191,38 +191,37 @@ z-index: 4;
 opacity: 0.85;
 }
 
-/* Hanging Golden Lanterns */
-.hanging-lantern {
-position: absolute;
-top: -20px;
-z-index: 5;
-transform-origin: top center;
-animation: lanternSwing 7s ease-in-out infinite alternate;
-filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.35));
+/* Subtle Islamic hero ornamentation (replaces hanging lanterns) */
+.hero-ornament {
+  position:absolute; inset:0; pointer-events:none; z-index:3; overflow:hidden;
+  border:1px solid rgba(190,145,55,.22);
+  box-shadow: inset 0 0 0 7px rgba(12,65,48,.035), inset 0 0 42px rgba(13,79,57,.08);
 }
-
-.hanging-lantern.left {
-left: 28px;
-animation-delay: 0s;
-animation-duration: 6.5s;
+.hero-ornament::before {
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 8% 8%, rgba(197,151,58,.18), transparent 28%),
+    radial-gradient(ellipse at 92% 12%, rgba(197,151,58,.15), transparent 26%),
+    radial-gradient(ellipse at 50% 0%, rgba(22,104,72,.10), transparent 48%),
+    repeating-conic-gradient(from 22.5deg at 0 0, transparent 0deg 42deg, rgba(184,143,57,.075) 43deg 44deg, transparent 45deg 90deg);
+  opacity:.55;
+  -webkit-mask-image:linear-gradient(to bottom, #000 0%, rgba(0,0,0,.72) 28%, transparent 76%);
+  mask-image:linear-gradient(to bottom, #000 0%, rgba(0,0,0,.72) 28%, transparent 76%);
 }
-
-.hanging-lantern.mid-right {
-left: 54%;
-animation-delay: -2.5s;
-animation-duration: 8s;
+.hero-ornament::after {
+  content:""; position:absolute; inset:10px; border:1px solid rgba(190,145,55,.18); border-radius:3px;
+  box-shadow: inset 0 0 28px rgba(7,57,42,.08);
 }
-
-.hanging-lantern.far-right {
-right: 40px;
-animation-delay: -1.2s;
-animation-duration: 7.2s;
-}
-
-@keyframes lanternSwing {
-0% { transform: rotate(-2.5deg); }
-100% { transform: rotate(2.5deg); }
-}
+.hero-ornament-corner {position:absolute;width:clamp(90px,15vw,190px);height:clamp(90px,15vw,190px);opacity:.18;
+ background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0deg 13deg,rgba(191,147,56,.65) 13.5deg 14.2deg,transparent 14.7deg 30deg);
+ border:1px solid rgba(191,147,56,.45);border-radius:50%;}
+.hero-ornament-corner.tl{top:-65px;left:-65px}.hero-ornament-corner.tr{top:-65px;right:-65px}
+.hero-ambient-glow {position:absolute;inset:0;pointer-events:none;z-index:2;
+ background:radial-gradient(ellipse 32% 38% at 0% 0%,rgba(214,168,72,.13),transparent 75%),radial-gradient(ellipse 32% 38% at 100% 0%,rgba(214,168,72,.12),transparent 75%),radial-gradient(ellipse 55% 30% at 50% 100%,rgba(10,91,62,.08),transparent 80%);
+ animation:heroAmbientBreath 9s ease-in-out infinite alternate;}
+@keyframes heroAmbientBreath{from{opacity:.62}to{opacity:1}}
+@media(max-width:768px){.hero-ornament{border-color:rgba(190,145,55,.14)}.hero-ornament::before{opacity:.34}.hero-ornament-corner{opacity:.11;width:92px;height:92px}.hero-ornament-corner.tl{top:-34px;left:-34px}.hero-ornament-corner.tr{top:-34px;right:-34px}.hero-ambient-glow{animation:none;opacity:.65}}
+@media(prefers-reduced-motion:reduce){.hero-ambient-glow{animation:none}}
 
 /* ==========================================================================
 HEADER & NAVIGATION (EXACT VISUAL MATCH)
@@ -2351,6 +2350,15 @@ align-items: flex-start;
 .hanging-lantern.mid-right {
 display: none;
 }
+.hanging-lantern.left { left: 8px; top: -12px; }
+.hanging-lantern.left svg { width: 43px; height: auto; }
+.hanging-lantern.far-right { right: 8px; top: -12px; }
+.hanging-lantern.far-right svg { width: 42px; height: auto; }
+}
+@media (max-width: 400px) {
+.hanging-lantern.left { left: 3px; }
+.hanging-lantern.far-right { right: 3px; }
+.hanging-lantern.left svg, .hanging-lantern.far-right svg { width: 34px; height: auto; }
 }
 
 /* ==========================================================================
@@ -2460,58 +2468,11 @@ scroll-behavior: auto !important;
 <path d="M18 165 C32 172 35 186 26 194 C18 198 12 185 18 165 Z" fill="#88a573" opacity="0.7"/>
 </svg>
 
-<!-- Hanging Golden Lanterns (Fanoos) with Warm Light and Swinging Motion -->
-<!-- Left Lantern -->
-<div class="hanging-lantern left" aria-hidden="true">
-<svg width="42" height="240" viewBox="0 0 50 260" fill="none" xmlns="http://www.w3.org/2000/svg">
-<!-- Chain -->
-<line x1="25" y1="0" x2="25" y2="120" stroke="#c59828" stroke-width="2" stroke-dasharray="3 3"/>
-<!-- Ring -->
-<circle cx="25" cy="126" r="6" stroke="#c59828" stroke-width="2" fill="none"/>
-<!-- Lantern Top Dome -->
-<path d="M12 145 C12 135 20 130 25 130 C30 130 38 135 38 145 Z" fill="url(#lanternGold)"/>
-<!-- Glass Body -->
-<path d="M10 145 L40 145 L34 195 L16 195 Z" fill="rgba(255, 235, 170, 0.45)" stroke="#c59828" stroke-width="1.5"/>
-<path d="M25 145 L25 195" stroke="#c59828" stroke-width="1"/>
-<!-- Inner Glowing Candle -->
-<circle cx="25" cy="170" r="7" fill="#ffeaa7" filter="drop-shadow(0 0 10px #f39c12)"/>
-<path d="M25 160 Q27 165 25 168 Q23 165 25 160" fill="#e67e22"/>
-<!-- Lantern Base & Pendant -->
-<path d="M14 195 L36 195 L25 210 Z" fill="url(#lanternGold)"/>
-<circle cx="25" cy="216" r="3" fill="#c59828"/>
-<defs>
-<linearGradient id="lanternGold" x1="0" y1="0" x2="1" y2="1">
-<stop offset="0%" stop-color="#f6e27a"/>
-<stop offset="50%" stop-color="#c59828"/>
-<stop offset="100%" stop-color="#8c6414"/>
-</linearGradient>
-</defs>
-</svg>
-</div>
-
-<!-- Mid-Right Lantern -->
-<div class="hanging-lantern mid-right" aria-hidden="true">
-<svg width="48" height="180" viewBox="0 0 50 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="25" y1="0" x2="25" y2="80" stroke="#c59828" stroke-width="2" stroke-dasharray="3 3"/>
-<circle cx="25" cy="85" r="5" stroke="#c59828" stroke-width="2" fill="none"/>
-<path d="M10 105 C10 94 20 90 25 90 C30 90 40 94 40 105 Z" fill="url(#lanternGold)"/>
-<path d="M8 105 L42 105 L35 150 L15 150 Z" fill="rgba(255, 240, 180, 0.5)" stroke="#c59828" stroke-width="1.5"/>
-<circle cx="25" cy="128" r="6" fill="#ffeaa7" filter="drop-shadow(0 0 12px #f39c12)"/>
-<path d="M13 150 L37 150 L25 165 Z" fill="url(#lanternGold)"/>
-<circle cx="25" cy="172" r="3" fill="#c59828"/>
-</svg>
-</div>
-
-<!-- Far Right Lantern -->
-<div class="hanging-lantern far-right" aria-hidden="true">
-<svg width="38" height="220" viewBox="0 0 50 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="25" y1="0" x2="25" y2="110" stroke="#c59828" stroke-width="1.8" stroke-dasharray="3 3"/>
-<circle cx="25" cy="115" r="5" stroke="#c59828" stroke-width="2" fill="none"/>
-<path d="M12 135 C12 125 20 120 25 120 C30 120 38 125 38 135 Z" fill="url(#lanternGold)"/>
-<path d="M10 135 L40 135 L34 180 L16 180 Z" fill="rgba(255, 235, 170, 0.45)" stroke="#c59828" stroke-width="1.5"/>
-<circle cx="25" cy="158" r="6" fill="#ffeaa7" filter="drop-shadow(0 0 10px #f39c12)"/>
-<path d="M14 180 L36 180 L25 195 Z" fill="url(#lanternGold)"/>
-</svg>
+<!-- Subtle Islamic geometric ornamentation; no lantern icons -->
+<div class="hero-ambient-glow" aria-hidden="true"></div>
+<div class="hero-ornament" aria-hidden="true">
+  <span class="hero-ornament-corner tl"></span>
+  <span class="hero-ornament-corner tr"></span>
 </div>
 
 <!-- ==========================================================================
@@ -2600,7 +2561,7 @@ SECTION 1: HERO SECTION
 
 <!-- Overseas Muslim Audience Context -->
 <div class="hero-overseas-note" data-gsap="fade-up" data-delay="0.06" dir="rtl" lang="ur">
-  بیرونِ ملک مقیم مسلمانوں کے لیے روحانی رہنمائی اور مشاورت
+  بیرون ملک رہنے والے پریشان حال لوگوں کے لیے روحانی علاج اور رہنمائی ۔
 </div>
 
 <!-- Grand Headline -->
@@ -2705,7 +2666,7 @@ Now a single <img> tries assets/calligraphy_cutout.png and falls back to extract
 <div class="hero-artwork-frame">
 <picture>
 <source srcset="assets/hero_mosque.webp" type="image/webp">
-<img src="assets/hero_mosque.jpg" width="1200" height="900" fetchpriority="high" alt="Grand Islamic Mosque with illuminated golden dome, minarets, marble reflection, and holy Quran on carved wooden rehal" loading="eager">
+<img src="assets/hero_mosque.jpg" width="1200" height="900" fetchpriority="high" alt="Grand Islamic Mosque with illuminated golden dome, minarets, marble reflection, and holy Quran on carved wooden rehal" loading="eager" onerror="this.closest('.hero-artwork-frame')?.remove()">
 </picture>
 </div>
 
@@ -3292,7 +3253,7 @@ SECTION 4: QURANIC BANNER & CUSTOMER REVIEWS (PANORAMIC SECTION)
 <div class="review-client-header">
 <div class="review-avatar alt-2">A</div>
 <div class="review-meta">
-<h4 class="review-name">Arman</h4>
+<h4 class="review-name">Usman</h4>
 <span class="review-location">Client from Italy</span>
 </div>
 </div>
@@ -4865,4 +4826,15 @@ initAnimations();
   .hero-verse-card .verse-ornate-border{padding:3px 2px!important}
 }
 
+
+/* Final targeted fix: the blank mobile square is the empty hero artwork frame.
+   Keep the artwork when its image loads; remove the frame itself if the asset fails. */
+@media(max-width:760px){
+  .hero-artwork-frame:has(img:not([src])){display:none!important}
+  .hero-artwork-frame{background:transparent!important;box-shadow:none!important}
+  .hero-artwork-frame picture{display:block;width:100%;height:auto;background:transparent!important}
+  .hero-artwork-frame img{display:block;width:100%;height:auto;object-fit:contain;background:transparent!important}
+}
+
 </style>
+
